@@ -1,11 +1,11 @@
 function getHistory(){
     return document.getElementById("history-value").innerText
 }
-function printHistor(num){
+function printHistory(num){
     document.getElementById("history-value").innerText=num
 }
-function getoutput(){
-    return document.getElementById("output-value").innerText
+function getOutput(){
+    return document.getElementById("output-value").innerText;
     
 }
 
@@ -21,9 +21,61 @@ function getFormattedNumber(num){
     var value = n.toLocaleString("en")
     return value
 }
-printOutput("3456789")
-
 function reverseNumberFormat(num){
-    return Number(num.replace(/,/g,''))
+
+    
+    return Number(num.replace(/,/g,''));
 }
-alert(reverseNumberFormat(getoutput()))
+
+var operator = document.getElementsByClassName("operator")
+
+for (var i=0; i<operator.length;i++){
+    operator[i].addEventListener('click',function (){
+
+        if(this.id=="clear"){
+            printHistory("")
+            printOutput("")
+        }
+        else if (this.id=="backspace"){
+            var output = reverseNumberFormat(getOutput()).toString()
+            if(output){ //if output has a value
+                output= output.substr(0,output.length-1)
+                printOutput(output)
+
+            }
+        }
+        else {
+            var output= getOutput()
+            var history= getHistory()
+            if(output!=""){
+                output=reverseNumberFormat(output);
+                history=history+output;
+                if(this.id=="="){
+                    var result=eval(history);
+                    printOutput(result)
+                    printHistory("")
+                }
+                else{
+                    history=history+this.id;
+                    printHistory(history)
+                    printOutput("")
+                    
+                }
+            }
+        }
+       
+    })
+}
+
+
+var numbers = document.getElementsByClassName("number")
+
+for (var i=0; i<numbers.length;i++){
+    numbers[i].addEventListener('click',function (){
+       var output = reverseNumberFormat(getOutput());
+       if(output!=NaN){
+        output = output+this.id;
+        printOutput(output)
+       }
+    })
+}
