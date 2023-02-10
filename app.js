@@ -17,6 +17,10 @@ function printOutput(num){
 }
 
 function getFormattedNumber(num){
+    if(num=="-"){
+        return "";
+    }
+
     var n = Number(num)
     var value = n.toLocaleString("en")
     return value
@@ -43,13 +47,26 @@ for (var i=0; i<operator.length;i++){
                 printOutput(output)
 
             }
+            else{
+                var output = reverseNumberFormat(getOutput()).toString()
+                
+            }
         }
+        
         else {
             var output= getOutput()
-            var history= getHistory()
-            if(output!=""){
-                output=reverseNumberFormat(output);
+            var history= getHistory();
+            if (output==""&&history!=""){
+                if(isNaN(history[history.length-1])){
+                    history=history.substr(0,history.length-1)
+                }
+            }
+            if(output!="" || history!=""){
+                //condition?true:false
+                output= output==""?
+                output: reverseNumberFormat(output);
                 history=history+output;
+
                 if(this.id=="="){
                     var result=eval(history);
                     printOutput(result)
